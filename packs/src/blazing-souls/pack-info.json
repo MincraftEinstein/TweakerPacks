@@ -1,0 +1,17 @@
+{
+  "id": "blazing-souls",
+  "name": "Blazing-Souls",
+  "description": "BS Test description",
+  "version": "1.0.0",
+  "has_modules": true,
+  "modules": [
+    {
+      "id": "vanilla",
+      "name": ""
+    },
+    {
+      "id": "fresh_animations",
+      "name": "FA"
+    }
+  ]
+}
