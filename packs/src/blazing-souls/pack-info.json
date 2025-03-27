@@ -1,8 +1,8 @@
 {
   "id": "blazing-souls",
   "name": "Blazing-Souls",
-  "description": "BS Test description",
-  "version": "1.0.0",
+  "description": "Makes §6blazes§r in soul sand valleys §bblue §r|§7 §6MincraftEinstein",
+  "version": "1.0.3",
   "has_modules": true,
   "modules": [
     {
