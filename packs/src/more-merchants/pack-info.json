@@ -3,5 +3,15 @@
   "name": "MoreMerchants",
   "description": "Wandering Trader color and zombie variants §r|§7 §6MincraftEinstein",
   "version": "1.0.0",
-  "has_modules": false
+  "has_modules": true,
+  "modules": [
+    {
+      "id": "vanilla",
+      "name": ""
+    },
+    {
+      "id": "fresh_animations",
+      "name": "FA"
+    }
+  ]
 }
