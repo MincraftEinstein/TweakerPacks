@@ -21,7 +21,7 @@ val PACK_VERSION: Int = versionObj.getOrThrow("pack_version").asInt
 const val DELETE_BUILD = false
 
 // Defaults
-val COMMON = PackModule("common", "common")
+val COMMON = PackModule("common", "")
 
 // Code
 fun main() {
