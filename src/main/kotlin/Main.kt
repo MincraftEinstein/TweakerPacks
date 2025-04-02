@@ -76,21 +76,26 @@ fun createZipFile(rootFiles: List<File>, path: String, description: String) {
         zipStream.putMcMeta(PackData(PACK_VERSION, description))
         rootFiles.forEach { rootFile ->
             rootFile.walkTopDown().forEach { file ->
-                val filePath = file.absolutePath
+                var relativePath = file.absolutePath
                     .removePrefix(rootFile.absolutePath)
-                    // (ender) this is really not need tbh scince it works fine with / or \
+                    // the file separators MUST be '/' (File.separatorChar will NOT work)
+                    .replace("\\\\", "/")
+                    .replace("//", "/")
+                    .replace("\\", "/")
                     .removePrefix("/")
-                    .removePrefix("\\")
 
                 if (file.isFile) {
-                    zipStream.writeFile(filePath, file, path)
+                    zipStream.writeFile(relativePath, file, path)
                 }
+
+                zipStream.flush()
             }
         }
+        zipStream.finish()
     }
 }
 
-fun ZipOutputStream.writeFile(filePath: String, file: File, fullPath: String) = this.putFile(filePath) {
+fun ZipOutputStream.writeFile(filePath: String, file: File, fullPath: String) = putFile(filePath) {
     BufferedInputStream(file.inputStream()).use { fileStream ->
         val bytesCopied = fileStream.copyTo(it)
         if (bytesCopied == 0L && file.readText().isNotEmpty()) {

@@ -4,11 +4,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParseException
 import com.google.gson.JsonSyntaxException
-import java.io.BufferedOutputStream
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStreamWriter
+import java.io.*
 import java.nio.charset.StandardCharsets
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
@@ -30,7 +26,6 @@ fun createZipFile(outputPath: File, fn: (ZipOutputStream) -> Unit): Boolean = tr
     println("Error creating ZIP file: $e")
     false
 }
-
 
 fun ZipOutputStream.putFile(path: String, fn: (ZipOutputStream) -> Unit) = try {
     this.putNextEntry(ZipEntry(path))
