@@ -36,16 +36,17 @@ fun main() {
 
 fun buildPack(file: File) {
     val json = File(file.path + "/pack-info.json")
-    require(json.exists()) { "ERROR: invalid pack '${json.path}'" }
-    val packInfo = gson.fromJson(json.readText(), PackInfo::class.java)
+    require(json.exists()) { "ERROR: invalid pack missing - '${json.path}'" }
 
+    val packInfo = gson.fromJson(json.readText(), PackInfo::class.java)
     val commonModule = packInfo.getCommonModuleFile()
     require(commonModule.exists()) { "ERROR: Couldn't find module 'common' for pack ${packInfo.id}" }
+
     if (packInfo.hasModules && packInfo.modules.isNotEmpty()) {
         packInfo.modules.forEach {
             val moduleFile = packInfo.getModuleFile(it.id)
-            require(moduleFile.exists()) { "ERROR: Couldn't find module '${it.id}' for pack ${packInfo.id}" }
 
+            require(moduleFile.exists()) { "ERROR: Couldn't find module '${it.id}' for pack ${packInfo.id}" }
             createModuleZip(packInfo, it, moduleFile, commonModule)
         }
     } else {
@@ -68,7 +69,7 @@ fun createModuleZip(
 fun createZipFile(rootFiles: List<File>, path: String, description: String) {
     val output = File("$path.zip")
     if (output.exists()) {
-        println("Zip already exists $path")
+        println("ERROR: Zip already exists - $path")
         return
     }
 
@@ -95,13 +96,12 @@ fun createZipFile(rootFiles: List<File>, path: String, description: String) {
     }
 }
 
-fun ZipOutputStream.writeFile(filePath: String, file: File, fullPath: String) = putFile(filePath) {
+fun ZipOutputStream.writeFile(filePath: String, file: File, zipPath: String) = putFile(filePath) {
     BufferedInputStream(file.inputStream()).use { fileStream ->
         val bytesCopied = fileStream.copyTo(it)
-        if (bytesCopied == 0L && file.readText().isNotEmpty()) {
-            // (ender) umm does this `Files.exists` even do what It's supposed to?
-            if (Files.exists(Path(filePath))) println("ERROR: File already exists $filePath | $fullPath")
-            else println("WARN: File not copied to zip. File had 0 bytes or an error occurred $filePath | $fullPath")
-        } else println("SUCCESS: Copied file to zip $filePath | $fullPath")
+        if (bytesCopied == 0L) {
+            if (Files.exists(Path(filePath))) println("ERROR: File already exists - $filePath | $zipPath")
+            else println("WARN: File not copied to zip. File had 0 bytes or an error occurred $filePath | $zipPath")
+        } else println("SUCCESS: Copied file to zip - $filePath | $zipPath")
     }
 }
