@@ -26,6 +26,7 @@ data class PackModule(
 )
 
 data class PackData(
+    @SerializedName("pack")
     val info: VersionInfo,
 ) {
     constructor(packFormat: Int, description: String) : this(VersionInfo(packFormat, description))
