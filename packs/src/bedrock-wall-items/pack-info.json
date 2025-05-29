@@ -1,0 +1,7 @@
+{
+  "id": "bedrock-wall-items",
+  "name": "BedrockWallItems",
+  "description": "Changes the wall item model to match Bedrock Edition",
+  "version": "1.0.0",
+  "has_modules": false
+}
